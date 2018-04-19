@@ -10,7 +10,7 @@ class Index extends AController {
 
         $db = new Database(HOST, USER, PASS, DB);
 
-        $tasks = $db->get_tasks();
+        $tasks = $db->get_tasks($_SESSION['id']);
 
         return $this->render('index', ['title'=>'family book', 'content'=>$tasks]);
 

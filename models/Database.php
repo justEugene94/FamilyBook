@@ -20,8 +20,8 @@ class Database {
         return $this->db;
     }
 
-    public function get_tasks(){
-        $sql = 'SELECT `id`, `task`, `family_id`, `status` FROM `tasks`';
+    public function get_tasks($id){
+        $sql = "SELECT t.id, t.task, t.status, f.name FROM tasks t, family f WHERE t.family_id = f.id AND t.family_id = '" . $id ."'";
 
         $res = mysqli_query($this->db, $sql);
 
@@ -33,8 +33,6 @@ class Database {
         for($i = 0; $i < mysqli_num_rows($res); $i++){
             $row[] = mysqli_fetch_assoc($res);
         }
-
-
 
         return $row;
     }
