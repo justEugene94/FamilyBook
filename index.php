@@ -39,19 +39,24 @@ $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
 if($_SESSION['id']) {
 
-    //Routing mvc
+    //Маршрутизация mvc
     switch ($request_uri[0]) {
 
-        // Home page
+        // Домашняя страница
         case "/":
             $init = new Index();
             echo $init->get_body();
             break;
+        case "/tasks":
+            $init = new Index();
+            echo $init->doneTasks();
+            break;
+        //Выход пользователя из системы
         case "/logout":
             $init = new Auth();
             echo $init->logout();
             break;
-        // Everything else
+        // Ошибка 404, если введен несуществующий маршрут
         default:
             header('HTTP/1.0 404 Not Found');
             require_once 'views/404.php';

@@ -20,8 +20,8 @@ class Database {
         return $this->db;
     }
 
-    public function get_tasks($id){
-        $sql = "SELECT t.id, t.task, t.status, f.name FROM tasks t, family f WHERE t.family_id = f.id AND t.family_id = '" . $id ."'";
+    public function get_tasks($id, $status){
+        $sql = "SELECT t.id, t.task, t.status, f.name FROM tasks t, family f WHERE t.family_id = f.id AND t.status='" .$status . "' AND t.family_id = '" . $id ."'";
 
         $res = mysqli_query($this->db, $sql);
 

@@ -10,8 +10,16 @@ class Auth extends AController {
 
     public function login(){
 
-        $name = $_POST['name'];
-        $pass = $_POST['pass'];
+        $input = $_POST;
+
+        $name = $input['name'];
+        $pass = $input['pass'];
+
+        $validator = $this->validator($input);
+        if(is_string($validator) ){
+            return $this->render('registry', ['title'=>'Registry Page', 'ErrorStatus'=>$validator]);
+        }
+
         $pass = md5($pass);
 
         $db = new Family(HOST, USER, PASS, DB);

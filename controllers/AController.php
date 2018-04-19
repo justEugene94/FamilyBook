@@ -9,6 +9,7 @@ abstract class AController {
         return ob_get_clean();
     }
 
+    //Простая валидация через регулярное выражение
     protected function validator($request){
 
         $pattern = '/[а-яА-яёЁa-zA-Z0-9]+$/';
@@ -27,6 +28,16 @@ abstract class AController {
         return $arr;
     }
 
+    //Метод благодаря которому будут или не будут отображаться определенные ссылки из меню
+    protected function parentMenu(){
+        $id = $_SESSION['id'];
+
+        $db = new Family(HOST, USER, PASS, DB);
+
+        $parentMenu = $db->takeMember($id);
+
+        return $parentMenu;
+    }
 
 }
 ?>

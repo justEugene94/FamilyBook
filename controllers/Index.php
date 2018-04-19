@@ -10,10 +10,25 @@ class Index extends AController {
 
         $db = new Database(HOST, USER, PASS, DB);
 
-        $tasks = $db->get_tasks($_SESSION['id']);
+        $status = 'Не выполнено';
 
-        return $this->render('index', ['title'=>'family book', 'content'=>$tasks]);
+        $tasks = $db->get_tasks($_SESSION['id'], $status);
 
+        return $this->render('index', ['title'=>'family book','parentMenu'=>$this->parentMenu(), 'content'=>$tasks]);
+
+    }
+
+    public function doneTasks(){
+
+        $db = new Database(HOST,USER, PASS, DB);
+
+        $status = 'Выполнено';
+
+        $tasks = $db->get_tasks($_SESSION['id'], $status);
+
+        $done = 'Еще никто не успел выполнить задания';
+
+        return $this->render('index', ['title'=>'family book','parentMenu'=>$this->parentMenu(),'done'=>$done, 'content'=>$tasks]);
     }
 
 }

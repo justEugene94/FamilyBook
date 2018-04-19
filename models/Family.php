@@ -66,7 +66,7 @@ class Family extends Database {
 
         $row = mysqli_fetch_assoc($res);
 
-        print_r($row);
+//        print_r($row);
 
         if($row['name'] == $name){
             return 'Такое имя уже используется';
@@ -89,6 +89,22 @@ class Family extends Database {
         }
 
         return mysqli_insert_id($this->db);
+    }
+
+    //Метод, который возвращает "ранг" члена семьи по его id
+    public function takeMember($id){
+        $sql = "SELECT fm.member FROM family_members fm, family f WHERE fm.id = f.family_member_id AND f.id = '" . $id . "'";
+
+        $res = mysqli_query($this->db, $sql);
+
+        if(!$res){
+            return FALSE;
+        }
+
+        $row = mysqli_fetch_assoc($res);
+        $row = implode($row);
+
+        return $row;
     }
 
 }
