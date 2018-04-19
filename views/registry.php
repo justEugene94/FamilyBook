@@ -23,18 +23,44 @@
 <div class="container">
 
     <form  method="post" action="/registry">
+
         <div class="form-group">
-            <label for="name">Имя</label>
-            <input type="text" name="name" class="form-control" id="name" placeholder="Введите ваше имя">
-        </div>
-        <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password" name="pass" class="form-control" id="password" placeholder="Введите ваш пароль">
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="name">Имя</label>
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Введите ваше имя">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="mr-sm-2" for="family_memder_id">Член семьи</label>
+                    <select name="family_member_id" class="custom-select mr-sm-2" id="family_memder_id">
+
+                        <? foreach ($members as $item):?>
+                        <option value="<?=$item['id'];?>"><?=$item['member'];?></option>
+                        <? endforeach; ?>
+
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="password">Повторите Пароль</label>
-            <input type="password" name="pass_confirm" class="form-control" id="password" placeholder="Повторите ваш пароль">
+
+            <div class="form-row">
+
+                <div class="col-md-6">
+                    <label for="password">Пароль</label>
+                    <input type="password" name="pass" class="form-control" id="password" placeholder="Введите ваш пароль">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="password">Повторите Пароль</label>
+                    <input type="password" name="pass_confirm" class="form-control" id="password" placeholder="Повторите ваш пароль">
+                </div>
+
+            </div>
+
         </div>
 
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>

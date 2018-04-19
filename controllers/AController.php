@@ -11,14 +11,17 @@ abstract class AController {
 
     protected function validator($request){
 
-        $pattern = '/^[а-яА-ЯёЁa-zA-Z0-9]+$/';
+        $pattern = '/[а-яА-яёЁa-zA-Z0-9]+$/';
 
         foreach ($request as $item){
-            if(preg_match($pattern, $item)){
+            if(empty($item)){
+                return 'Вы не заполнили поле';
+            }
+            elseif (preg_match($pattern, $item)){
                 $arr[] = $item;
             }
             else{
-                return false;
+                return 'Поле заполнено не верно';
             }
         }
         return $arr;

@@ -12,6 +12,7 @@ class Auth extends AController {
 
         $name = $_POST['name'];
         $pass = $_POST['pass'];
+        $pass = md5($pass);
 
         $db = new Family(HOST, USER, PASS, DB);
 
@@ -43,24 +44,51 @@ class Auth extends AController {
 
     public function registry(){
 
+        $db = new Family(HOST, USER, PASS, DB);
+
+        $members = $db->get_members();
+
         if(!empty($_POST)){
 
             $input = $_POST;
 
             $validator = $this->validator($input);
-
-            if(!$validator){
-                return $this->render('registry', ['title'=>'Registry Page', 'ErrorStatus'=>'Поля заполнены не верно']);
+            if(is_string($validator) ){
+                return $this->render('registry', ['title'=>'Registry Page','members'=>$members, 'ErrorStatus'=>$validator]);
             }
 
-            print_r($validator);
+            $checkParent = $db->check_parent($input['family_member_id']);
+            if(is_string($checkParent)){
+                return $this->render('registry', ['title'=>'Registry Page','members'=>$members, 'ErrorStatus'=>$checkParent]);
+            }
 
+            $checkName = $db->check_name($input['name']);
+            if(is_string($checkName)){
+                return $this->render('registry', ['title'=>'Registry Page','members'=>$members, 'ErrorStatus'=>$checkName]);
+            }
 
+            if($input['pass'] != $input['pass_confirm']){
+                return $this->render('registry', ['title'=>'Registry Page','members'=>$members, 'ErrorStatus'=>'Пароль не совпадает']);
+            }
+
+            $input['pass'] = md5($input['pass']);
+
+            unset($input['pass_confirm']);
+
+            $id = $db->save($input);
+            if(is_string($id)){
+                return $this->render('registry', ['title'=>'Registry Page','members'=>$members, 'ErrorStatus'=>$id]);
+            }
+
+            $_SESSION['id'] = $id;
+
+            header('Location: http://testprog.loc/');
+            die();
 
         }
 
 
-        return $this->render('registry', ['title'=>'Registry Page']);
+        return $this->render('registry', ['title'=>'Registry Page', 'members'=>$members]);
     }
 
 

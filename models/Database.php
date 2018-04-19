@@ -39,6 +39,24 @@ class Database {
         return $row;
     }
 
+    public function get_members(){
+
+        $sql = "SELECT `id`, `member` FROM `family_members`";
+
+        $res = mysqli_query($this->db, $sql);
+
+        if(!$res){
+            return False;
+        }
+
+        for($i = 0; $i < mysqli_num_rows($res); $i++){
+            $row[] = mysqli_fetch_assoc($res);
+        }
+
+        return $row;
+
+    }
+
 
 
 
