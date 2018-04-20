@@ -107,5 +107,21 @@ class Family extends Database {
         return $row;
     }
 
+    public function takeNames(){
+        $sql = "SELECT `id`, `name` FROM `family`";
+
+        $res = mysqli_query($this->db, $sql);
+
+        if(!$res){
+            return false;
+        }
+
+        for ($i=0; $i < mysqli_num_rows($res); $i++){
+            $row[] = mysqli_fetch_assoc($res);
+        }
+
+        return $row;
+    }
+
 }
 ?>

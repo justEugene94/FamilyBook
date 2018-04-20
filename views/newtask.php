@@ -29,11 +29,7 @@
     <a class="btn btn-outline-primary" href="/logout">Выйти</a>
 </div>
 
-<? if(isset($done)):?>
-    <h4 class="text-center"><?=$done?></h4>
-<?else:?>
-    <h4 class="text-center">Время сделать что-то полезное для дома</h4>
-<?endif;?>
+<h4 class="text-center">Добавьте новое задание</h4>
 
 <? if(isset($ErrorStatus)): ?>
     <div class="alert alert-danger" role="alert">
@@ -48,49 +44,17 @@
 <? endif;?>
 
 <div class="container">
-        <? if(is_array($content)): ?>
-            <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Задание</th>
-                    <th scope="col">Статус</th>
-                    <? if(!isset($done)): ?>
-                        <th scope="col">Выполнил</th>
-                    <? endif;?>
-                </tr>
-                </thead>
-                <tbody>
-                <? foreach ($content as $item):?>
-                <tr>
-                    <th><?=$item['id'];?></th>
-                    <td><?=$item['name'];?></td>
-                    <td><?=$item['task'];?></td>
-                    <td><?=$item['status'];?></td>
-                    <? if(!isset($done)): ?>
-                        <td>
-                            <form method="post" action="/">
-                                <input type="hidden" name="id" value="<?=$item['id']?>">
-                                <button type="submit" class="btn btn-success">Готово</button>
-                            </form>
-                        </td>
-                    <?endif;?>
-                </tr>
-                <? endforeach;?>
 
-                </tbody>
-            </table>
-        <?elseif(isset($done)) :?>
+    <form method="post" action="/newtask">
+        <div class="form-group">
 
-            <p align="center"><img  src="/images/work.jpg"/></p>
+            <textarea class="form-control" name="task" id="task" rows="4"></textarea>
 
-        <? else:?>
+        </div>
 
-            <p align="center"><img  src="/images/man.png"/></p>
-            <h3 class="text-center">Поздравляем. Все задания выполнены</h3>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
 
-        <?endif;?>
 </div>
 
 </body>

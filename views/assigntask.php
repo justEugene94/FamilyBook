@@ -32,7 +32,7 @@
 <? if(isset($done)):?>
     <h4 class="text-center"><?=$done?></h4>
 <?else:?>
-    <h4 class="text-center">Время сделать что-то полезное для дома</h4>
+    <h4 class="text-center">Раздайте задания</h4>
 <?endif;?>
 
 <? if(isset($ErrorStatus)): ?>
@@ -48,49 +48,49 @@
 <? endif;?>
 
 <div class="container">
-        <? if(is_array($content)): ?>
-            <table class="table">
-                <thead class="thead-light">
+    <? if(is_array($content)): ?>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Задание</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Назначить</th>
+            </tr>
+            </thead>
+            <tbody>
+            <? foreach ($content as $item):?>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Задание</th>
-                    <th scope="col">Статус</th>
-                    <? if(!isset($done)): ?>
-                        <th scope="col">Выполнил</th>
-                    <? endif;?>
-                </tr>
-                </thead>
-                <tbody>
-                <? foreach ($content as $item):?>
-                <tr>
-                    <th><?=$item['id'];?></th>
-                    <td><?=$item['name'];?></td>
-                    <td><?=$item['task'];?></td>
-                    <td><?=$item['status'];?></td>
-                    <? if(!isset($done)): ?>
+                    <form method="post" action="/executors">
+                        <th><?=$item['id'];?></th>
                         <td>
-                            <form method="post" action="/">
-                                <input type="hidden" name="id" value="<?=$item['id']?>">
-                                <button type="submit" class="btn btn-success">Готово</button>
-                            </form>
+                            <select name="family_member_id" id="family_memder_id">
+                                <? foreach ($names as $user) :?>
+
+                                    <option value="<?=$user['id'];?>"><?=$user['name'];?></option>
+
+                                <?endforeach;?>
+                            </select>
                         </td>
-                    <?endif;?>
+                        <td><?=$item['task'];?></td>
+                        <td><?=$item['status'];?></td>
+                        <td>
+
+                                <input type="hidden" name="id" value="<?=$item['id']?>">
+                                <button type="submit" class="btn btn-success">Назначить</button>
+
+                        </td>
+                    </form>
                 </tr>
-                <? endforeach;?>
+            <? endforeach;?>
 
-                </tbody>
-            </table>
-        <?elseif(isset($done)) :?>
-
-            <p align="center"><img  src="/images/work.jpg"/></p>
-
-        <? else:?>
-
-            <p align="center"><img  src="/images/man.png"/></p>
-            <h3 class="text-center">Поздравляем. Все задания выполнены</h3>
-
-        <?endif;?>
+            </tbody>
+        </table>
+    <?else:?>
+        <p align="center"><img  src="/images/man.png"/></p>
+        <h3 class="text-center">Все задания назначены</h3>
+    <?endif;?>
 </div>
 
 </body>

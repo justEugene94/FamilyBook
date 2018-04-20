@@ -47,9 +47,20 @@ if($_SESSION['id']) {
             $init = new Index();
             echo $init->get_body();
             break;
+        //Страница со сделанными заданиями
         case "/tasks":
             $init = new Index();
             echo $init->doneTasks();
+            break;
+        //Страница для добавления заданий (отображается и работает только у пользователя "ранга" Mother
+        case "/newtask":
+            $init = new Index();
+            echo $init->newTask();
+            break;
+        //Страница для выбора человека, который должен выполнить задание и работает только у пользователя "ранга" Father
+        case "/executors":
+            $init = new Index();
+            echo $init->assignTask();
             break;
         //Выход пользователя из системы
         case "/logout":
