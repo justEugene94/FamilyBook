@@ -65,7 +65,7 @@
                     <form method="post" action="/executors">
                         <th><?=$item['id'];?></th>
                         <td>
-                            <select name="family_member_id" id="family_memder_id">
+                            <select name="family_id" id="family_id">
                                 <? foreach ($names as $user) :?>
 
                                     <option value="<?=$user['id'];?>"><?=$user['name'];?></option>

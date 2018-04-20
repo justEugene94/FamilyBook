@@ -12,11 +12,13 @@ class Index extends AController {
 
         $status = 'Не выполнено';
 
-        $tasks = $db->get_tasks($status, $_SESSION['id']);
+        $id = $_SESSION['id'];
+
+        $tasks = $db->get_tasks($status, $id);
 
         if(!empty($_POST)){
 
-            $id = $_POST['id'];
+            $id = $this->sanitizeString($_POST['id']);
 
             $done = $db->statusDone($id);
 
@@ -53,7 +55,12 @@ class Index extends AController {
 
         if(!empty($_POST)){
 
-            $task = $_POST['task'];
+            $task = $this->sanitizeString($_POST['task']);
+
+            $validator = $this->validator($task);
+            if(is_string($task)){
+                return $this->render('newtask', ['title'=>'New Task', 'parentMenu'=>$this->parentMenu(), 'ErrorStatus'=>$validator]);
+            }
 
             $db = new Database(HOST,USER, PASS, DB);
 
@@ -80,7 +87,24 @@ class Index extends AController {
 
         $users = $db->takeNames();
 
+        if(!empty($_POST)){
 
+            $id = $this->sanitizeString($_POST['id']);
+            $family_id = $this->sanitizeString($_POST['family_id']);
+
+            $res = $db->changeFamilyId($id, $family_id);
+
+            if(!$res){
+
+                $error = 'Возникла ошибка при назначении пользователя на задание';
+
+                return $this->render('assigntask', ['title'=>'New Task', 'parentMenu'=>$this->parentMenu(), 'content'=>$tasks, 'names'=>$users, 'ErrorStatus'=>$error]);
+            }
+
+            $success = 'Вы назначили на задание пользователя';
+
+            return $this->render('assigntask', ['title'=>'New Task', 'parentMenu'=>$this->parentMenu(), 'content'=>$tasks, 'names'=>$users, 'successStatus'=>$success]);
+        }
 
         return $this->render('assigntask', ['title'=>'New Task', 'parentMenu'=>$this->parentMenu(), 'content'=>$tasks, 'names'=>$users]);
     }

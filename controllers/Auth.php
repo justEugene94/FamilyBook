@@ -10,10 +10,10 @@ class Auth extends AController {
 
     public function login(){
 
-        $input = $_POST;
+        $input = $this->sanitizeString($_POST);
 
-        $name = $input['name'];
-        $pass = $input['pass'];
+        $name = $this->sanitizeString($input['name']);
+        $pass = $this->sanitizeString($input['pass']);
 
         $validator = $this->validator($input);
         if(is_string($validator) ){
@@ -58,7 +58,7 @@ class Auth extends AController {
 
         if(!empty($_POST)){
 
-            $input = $_POST;
+            $input = $this->sanitizeString($_POST);
 
             $validator = $this->validator($input);
             if(is_string($validator) ){

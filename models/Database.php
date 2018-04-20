@@ -20,9 +20,11 @@ class Database {
         return $this->db;
     }
 
-    public function get_tasks($status, $id = false){
 
-        if(is_integer($id)){
+    //Взять из базы данных значения заданий
+    public function get_tasks($status, $id){
+
+        if($id > 0){
             $sql = "SELECT t.id, t.task, t.status, f.name FROM tasks t, family f WHERE t.family_id = f.id AND t.status='" .$status . "' AND t.family_id = '" . $id ."'";
 
         }
@@ -105,6 +107,19 @@ class Database {
         if(mysqli_insert_id($this->db) == 0){
 
             return 'Возникла ошибка при сохранении задания';
+        }
+
+        return TRUE;
+    }
+
+    public function changeFamilyId($id, $family_id){
+
+        $sql = "UPDATE `tasks` SET `family_id`='" . $family_id . "' WHERE `id` = '" . $id . "'";
+
+        $res = mysqli_query($this->db, $sql);
+
+        if(mysqli_affected_rows($this->db) == -1){
+            return FALSE;
         }
 
         return TRUE;
